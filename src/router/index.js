@@ -204,6 +204,18 @@ export const asyncRoutes = [
           roles: ['admin', 'jerry'],
           id: '96'
         }
+      },
+      {
+        path: 'goodsList',
+        component: () => import('@/views/rich/goodsList.vue'),
+        name: 'goodsList',
+        meta: {
+          title: "共富订单分润明细",
+          icon: 'el-icon-ship',
+          hidden: false,
+          roles: ['admin', 'jerry'],
+          id: '97'
+        }
       }
     ]
   },

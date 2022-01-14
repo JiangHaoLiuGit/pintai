@@ -468,7 +468,6 @@ export default {
         page_size: number,
         user_search:this.seachVale,
         state: this.shen_status,
-        agent_type: this.type_status,
         start_time: time1,
         end_time: time2,
       })
@@ -513,7 +512,7 @@ export default {
     },
     //搜索
     pick_seach() {
-      if (this.seachVale == "" && this.time_value == "" && this.type_status == "" && this.shen_status == "") {
+      if (this.seachVale == "" && this.time_value == "" && this.shen_status == "") {
         this.$message({
           message: "请填写搜索内容",
           type: "warning",
@@ -533,7 +532,6 @@ export default {
         page_size: this.pageSize,
         user_search:this.seachVale,
         state: this.shen_status,
-        agent_type: this.type_status,
         start_time: time1,
         end_time: time2,
       })

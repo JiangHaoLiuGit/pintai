@@ -1779,18 +1779,15 @@ export const sys_add_agent = params => {
 	return axios.post(`new_admin.php?c=selling_agent&a=sys_add_agent`, Qs.stringify(params))
 }
 
+//共富订单列表 
+export const selling_order_list = params => {
+	return axios.post(`new_admin.php?c=selling_order&a=selling_order_list`, Qs.stringify(params))
+}
 
-
-
-
-
-
-
-
-
-
-
-
+//共富订单分润明细 
+export const share_profit_list = params => {
+	return axios.post(`new_admin.php?c=selling_order&a=share_profit_list`, Qs.stringify(params))
+}
 
 
 

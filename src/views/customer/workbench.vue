@@ -1079,6 +1079,7 @@
   </div>
 </template>
 <script>
+import publicFile from '../../utils/publicFile'
 import {
   ask_get_list,
   get_chat_record,
@@ -1437,12 +1438,12 @@ export default {
   },
   methods: {
     toProduct(id){
-      window.open("https://www.rcwisdom.com/h5/admin/dist/index.html#/goods/onSale?product_id=" + id)
+      window.open(publicFile.address + "/h5/admin/dist/index.html#/goods/onSale?product_id=" + id)
       // this.$router.push({path:"/goods/onSale",query:{product_id:id}})
     },
     toOrder(id){
       // windows.open()
-      window.open("https://www.rcwisdom.com/h5/admin/dist/index.html#/order_/orderList_p?order_id=" + id)
+      window.open(publicFile.address + "/h5/admin/dist/index.html#/order_/orderList_p?order_id=" + id)
       
       // this.$router.push({path:"/order_/orderList_p",query:{order_id:id}})
     },

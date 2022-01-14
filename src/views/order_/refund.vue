@@ -1968,7 +1968,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        window.open("https://www.rcwisdom.com/h5/admin/supplier/index.html#/?url=" + uid)
+        window.open(publicFile.address + "/h5/admin/supplier/index.html#/?url=" + uid)
       }).catch(() => {
                   
       });

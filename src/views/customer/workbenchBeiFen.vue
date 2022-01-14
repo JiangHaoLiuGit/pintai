@@ -1474,8 +1474,8 @@ export default {
         });
       } else {
         // 实例化socket,
-        new WebSocket("wss://www.rcwisdom.com:8282");
-        const socketUrl = "wss://www.rcwisdom.com:8282";
+        new WebSocket("wss://www.baidu.cn:8282");
+        const socketUrl = "wss://www.baidu.cn:8282";
 /*
 
 */

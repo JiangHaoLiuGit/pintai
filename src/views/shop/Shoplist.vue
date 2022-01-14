@@ -280,6 +280,7 @@
 </template>
 
 <script>
+import publicFile from '../../utils/publicFile'
 import { store_list , store_detail , save_detail , store_change_status , get_cate , get_province , get_city , get_area } from "../../utils/axios";
 export default {
   data() {
@@ -961,7 +962,7 @@ export default {
     //进店
     enter_store (index, row) {
       // console.log("测试")
-      window.open("https://www.rcwisdom.com/h5/admin/supplier/index.html#/?url=" + row.uid)
+      window.open(publicFile.address + "/h5/admin/supplier/index.html#/?url=" + row.uid)
       // window.open("http://localhost:8081/#/?url=" + row.uid)
     },
     //客户聊天

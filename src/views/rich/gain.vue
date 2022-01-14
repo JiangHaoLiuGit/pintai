@@ -631,12 +631,21 @@
               <el-table-column label="序号" type="index" width="50">
               </el-table-column>
               <el-table-column
+              width="140"
                 prop="complate_time"
                 label="订单完成时间"
               ></el-table-column>
               <el-table-column
                 prop="order_no"
                 label="单号"
+              ></el-table-column>
+              <el-table-column
+                prop="order_nickname"
+                label="买家昵称"
+              ></el-table-column>
+              <el-table-column
+                prop="order_uid"
+                label="买家ID"
               ></el-table-column>
               <el-table-column label="收益类型" align="center">
                 <template slot-scope="scope">

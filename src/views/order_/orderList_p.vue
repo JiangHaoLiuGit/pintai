@@ -197,16 +197,6 @@
                       >
                     </el-input>
                     </span>
-<!--                     
-                    <el-button
-                      size="mini"
-                      class="lt"
-                      type="info"
-                      style="margin-right: 20px;display:inline-block;height:20px!important;"
-                      @click="remarks_add(scope.$index, scope.row)"
-                      >备注</el-button
-                    > -->
-                    <!-- v-if="scope.row.store_id == '0'" -->
                     <el-button
                       class="lt"
                       type="success"
@@ -219,8 +209,6 @@
                 </div>
                 <div class="rt" style="width:20%;text-align: right;padding-top:10px;padding-right: 13px;">
                   <!-- <el-tag type="success" style="margin-right:10px" v-if="scope.row.live_id != 0">直播间订单</el-tag> -->
-                  
-                  
                 </div>
               </div>
               <div v-else style="text-align:left;">
@@ -243,12 +231,6 @@
           </el-table-column>
           <el-table-column label="数量/单价/合计">
             <template slot-scope="scope">
-              <!-- <div style="text-align:center;">
-                ID: {{scope.row.product_id1}}
-              </div> -->
-              <!-- <div style="text-align:center;line-height:14px;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;overflow: hidden;">
-                
-              </div> -->
               <div style="text-align: center">
                 <span style="color: red; "
                   >数量:{{ scope.row.pro_num1 }}件</span
@@ -1793,7 +1775,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        window.open("https://www.rcwisdom.com/h5/admin/supplier/index.html#/?url=" + uid)
+        window.open(publicFile.address + "/h5/admin/supplier/index.html#/?url=" + uid)
       }).catch(() => {
                   
       });
@@ -3427,8 +3409,6 @@ export default {
         if(this.time_type == '' || this.time_value == ''){
           if(this.time_value[0] === '' && this.time_value[1] === ''){
           }else{
-            console.log(this.time_value)
-            console.log(this.time_type)
             that.$message({
               message: "请完善时间类型",
               type: "warning",
