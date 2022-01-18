@@ -216,7 +216,20 @@ export const asyncRoutes = [
           roles: ['admin', 'jerry'],
           id: '97'
         }
-      }
+      },
+      {
+        path: 'notIce',
+        component: () => import('@/views/rich/notIce.vue'),
+        name: 'notIce',
+        meta: {
+          title: "共富通知记录",
+          icon: 'el-icon-ship',
+          hidden: false,
+          roles: ['admin', 'jerry'],
+          id: '98'
+        }
+      },
+      
     ]
   },
 

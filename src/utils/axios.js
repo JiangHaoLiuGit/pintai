@@ -1789,7 +1789,10 @@ export const share_profit_list = params => {
 	return axios.post(`new_admin.php?c=selling_order&a=share_profit_list`, Qs.stringify(params))
 }
 
-
+//共富通知记录 
+export const selling_notice_log = params => {
+	return axios.post(`new_admin.php?c=selling_notice&a=selling_notice_log`, Qs.stringify(params))
+}
 
 
 

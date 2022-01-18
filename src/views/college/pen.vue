@@ -1403,7 +1403,11 @@ export default {
   min-height: 200px;
   
 }
+/deep/ img{
+  display: initial;
+}
 /deep/.iphone img{
-  width: 100%;
+  max-width: 100%;
+  width: auto;
 }
 </style>

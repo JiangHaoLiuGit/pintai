@@ -74,11 +74,13 @@
           <el-col :span="24">
             <el-table
               v-loading="loading"
-              ref="multipleTable"
+              ref="multipleTable1"
               :data="extendList"
               border
               style="width: 100%"
               :span-method="cellMerge"
+              @cell-mouse-leave="cellLeave"
+               @cell-mouse-enter="mouseHover"
               :height="height"
               @selection-change="handleSelectionChange"
             >
@@ -413,6 +415,7 @@ export default {
       loading: false,
       multipleSelection: [],
       shen_status:"",
+      indexArr:[],
       shen_status_list: [
         {
           id: "1",
@@ -504,6 +507,25 @@ export default {
     this.height = document.body.clientHeight - 320
   },
   methods: {
+    //划入
+    mouseHover(row){
+      console.log(row)
+      this.indexArr = []
+      for(let i = 0 ; i < this.extendList.length ; i++ ){
+        if(this.extendList[i].index == row.index){
+          this.indexArr.push(i)
+        }
+      }
+      this.indexArr.forEach((item,index) => {
+        $('.goodsindex-list2 tbody tr:nth-of-type('+ (this.indexArr[index]+1) +')').addClass("active")
+      })
+    },
+    //划出
+    cellLeave(row,colum){
+      this.indexArr.forEach((item,index) => {
+        $('.goodsindex-list2 tbody tr:nth-of-type('+ (this.indexArr[index]+1) +')').removeClass("active")
+      })
+    },
     //表格合并行
     cellMerge({ row, column, rowIndex, columnIndex }) {
       //当前行row、当前列column、当前行号rowIndex、当前列号columnIndex
@@ -923,6 +945,14 @@ export default {
             this.extendList = [];
             this.spanArr = [];
             this.spanBrr = [];
+            setTimeout(() => {
+              this.$refs.multipleTable1.scrollTop = 0;
+            }, 100);
+            //93 2010 17
+            //79 2010 31
+            //87 2010 23
+            //67 2010 43
+
             res.data.err_msg.list.forEach((element, index) => {
               element.product_list.push(element.product_list[0])
               element.complate_time = this.commonJs.timestampToTime(
@@ -1299,5 +1329,12 @@ export default {
   .divs {
     padding: 0 15px 0 15px;
   }
+}
+/deep/ .el-table--enable-row-hover .el-table__body tr:hover>td{
+  background-color:#fff!important;
+}
+/deep/ .el-table--enable-row-hover .el-table__body:hover tr.active>td{
+  background-color:#dce1e8!important;
+  // #dce1e8
 }
 </style>
