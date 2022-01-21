@@ -1794,10 +1794,34 @@ export const selling_notice_log = params => {
 	return axios.post(`new_admin.php?c=selling_notice&a=selling_notice_log`, Qs.stringify(params))
 }
 
+//橘宝
+//用户明细 
+export const get_user_list = params => {
+	return axios.post(`new_admin.php?c=jvbao&a=get_list`, Qs.stringify(params))
+}
+
+//可使用明细 
+export const detail_user_content = params => {
+	return axios.post(`new_admin.php?c=jvbao&a=detail_content`, Qs.stringify(params))
+}
+
+//购物得 
+export const jvbao_shopping = params => {
+	return axios.post(`new_admin.php?c=jvbao&a=jvbao_shopping`, Qs.stringify(params))
+}
+
+//互赠橘宝
+export const jvbao_giff_gaff = params => {
+	return axios.post(`new_admin.php?c=jvbao&a=jvbao_giff_gaff`, Qs.stringify(params))
+}
 
 
+//冻结橘宝
+export const jvbao_freeze = params => {
+	return axios.post(`new_admin.php?c=jvbao&a=jvbao_freeze`, Qs.stringify(params))
+}
 
-
-
-
-
+//橘宝待使用
+export const jvbao_used = params => {
+	return axios.post(`new_admin.php?c=jvbao&a=jvbao_used`, Qs.stringify(params))
+}

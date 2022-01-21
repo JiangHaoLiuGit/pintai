@@ -138,6 +138,7 @@
                 <!-- <h2 style="margin-top:0;" v-if="type == 1">增加营销分类</h2>
                 <h2 style="margin-top:0;" v-else-if="type == 2">修改营销分类</h2> -->
                 <el-form :model="form">
+                  <!-- if(this.form.live_id == '' || this.form.level == '') -->
                   <!-- <div style="position:relative"> -->
                   <el-form-item
                     label="活动名"
@@ -1101,7 +1102,7 @@ export default {
           }
       });
     },
-    
+
     // this.$message({
     //     message: '停用成功',
     //     type: 'success'
@@ -1121,12 +1122,12 @@ export default {
         this.type = 1
     },
     submit_saveChanges_level(){
-        if(this.form.live_id == '' || this.form.level == '') {
-            this.$message({
-                message: '请完整填写选项',
-                type: 'warning'
-            });
-            return
+        if(this.form.live_id == '' || this.form.level === '') {
+          this.$message({
+              message: '请完整填写选项',
+              type: 'warning'
+          });
+          return
         }
         if(this.type == 1){
             //增加
@@ -1415,6 +1416,7 @@ export default {
                 }
                 this.levelList.push(obj)
             })
+            console.log(this.levelList)
             } else {
           
             this.$message({

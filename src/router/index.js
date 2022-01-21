@@ -198,7 +198,7 @@ export const asyncRoutes = [
         component: () => import('@/views/rich/addressList.vue'),
         name: 'addressList',
         meta: {
-          title: "地址管理",
+          title: "区域数量",
           icon: 'el-icon-ship',
           hidden: false,
           roles: ['admin', 'jerry'],
@@ -217,6 +217,8 @@ export const asyncRoutes = [
           id: '97'
         }
       },
+      
+      //
       {
         path: 'notIce',
         component: () => import('@/views/rich/notIce.vue'),
@@ -593,6 +595,18 @@ export const asyncRoutes = [
     },
     children: [
       {
+        path: 'juBaoUser',
+        component: () => import('@/views/jubao/juBaoUser.vue'),
+        name: 'juBaoUser',
+        meta: {
+          title: "用户橘宝明细",
+          icon: 'el-icon-s-help',
+          hidden: false,
+          roles: ['admin', 'jerry'],
+          id:'99'
+        }
+      },
+      {
         path: 'juBaoGoods',
         component: () => import('@/views/jubao/juBaoGoods.vue'),
         name: 'juBaoGoods',
@@ -604,31 +618,31 @@ export const asyncRoutes = [
           id:'95'
         }
       },
-      {
-        path: 'globalDetails',
-        component: () => import('@/views/jubao/globalDetails.vue'),
-        name: 'globalDetails',
-        meta: {
-          title: "全局明细",
-          icon: 'el-icon-s-help',
-          hidden: false,
-          roles: ['admin', 'jerry'],
-          id:'24'
-        }
-      },
+      // {
+      //   path: 'globalDetails',
+      //   component: () => import('@/views/jubao/globalDetails.vue'),
+      //   name: 'globalDetails',
+      //   meta: {
+      //     title: "全局明细",
+      //     icon: 'el-icon-s-help',
+      //     hidden: false,
+      //     roles: ['admin', 'jerry'],
+      //     id:'24'
+      //   }
+      // },
       
-      {
-        path: 'userDetails',
-        component: () => import('@/views/jubao/userDetails.vue'),
-        name: 'userDetails',
-        meta: {
-          title: "用户明细",
-          icon: 'el-icon-s-help',
-          hidden: false,
-          roles: ['admin', 'jerry'],
-          id:'23'
-        }
-      },
+      // {
+      //   path: 'userDetails',
+      //   component: () => import('@/views/jubao/userDetails.vue'),
+      //   name: 'userDetails',
+      //   meta: {
+      //     title: "用户明细",
+      //     icon: 'el-icon-s-help',
+      //     hidden: false,
+      //     roles: ['admin', 'jerry'],
+      //     id:'23'
+      //   }
+      // },
       {
         path: 'manorData',
         component: () => import('@/views/jubao/manorData.vue'),
@@ -641,42 +655,42 @@ export const asyncRoutes = [
           id:'25'
         }
       },
-      {
-        path: 'jubaoMall',
-        component: () => import('@/views/jubao/jubaoMall.vue'),
-        name: 'jubaoMall',
-        meta: {
-          title: "橘宝商城",
-          icon: 'el-icon-s-help',
-          hidden: false,
-          roles: ['admin', 'jerry'],
-          id:'26'
-        }
-      },
-      {
-        path: 'orderList',
-        component: () => import('@/views/jubao/orderList.vue'),
-        name: 'orderList',
-        meta: {
-          title: "订单管理",
-          icon: 'el-icon-s-help',
-          hidden: false,
-          roles: ['admin', 'jerry'],
-          id:'27'
-        }
-      },
-      {
-        path: 'exchangeList',
-        component: () => import('@/views/jubao/exchangeList.vue'),
-        name: 'exchangeList',
-        meta: {
-          title: "兑换记录",
-          icon: 'el-icon-s-help',
-          hidden: false,
-          roles: ['admin', 'jerry'],
-          id:'28'
-        }
-      },
+      // {
+      //   path: 'jubaoMall',
+      //   component: () => import('@/views/jubao/jubaoMall.vue'),
+      //   name: 'jubaoMall',
+      //   meta: {
+      //     title: "橘宝商城",
+      //     icon: 'el-icon-s-help',
+      //     hidden: false,
+      //     roles: ['admin', 'jerry'],
+      //     id:'26'
+      //   }
+      // },
+      // {
+      //   path: 'orderList',
+      //   component: () => import('@/views/jubao/orderList.vue'),
+      //   name: 'orderList',
+      //   meta: {
+      //     title: "订单管理",
+      //     icon: 'el-icon-s-help',
+      //     hidden: false,
+      //     roles: ['admin', 'jerry'],
+      //     id:'27'
+      //   }
+      // },
+      // {
+      //   path: 'exchangeList',
+      //   component: () => import('@/views/jubao/exchangeList.vue'),
+      //   name: 'exchangeList',
+      //   meta: {
+      //     title: "兑换记录",
+      //     icon: 'el-icon-s-help',
+      //     hidden: false,
+      //     roles: ['admin', 'jerry'],
+      //     id:'28'
+      //   }
+      // },
       {
         path: 'jubaoManor',
         component: () => import('@/views/jubao/jubaoManor.vue'),
@@ -713,30 +727,30 @@ export const asyncRoutes = [
           id:'33'
         }
       },
-      {
-        path: 'turntableSettings',
-        component: () => import('@/views/jubao/turntableSettings.vue'),
-        name: 'turntableSettings',
-        meta: {
-          title: "转盘设置",
-          icon: 'el-icon-s-help',
-          hidden: false,
-          roles: ['admin', 'jerry'],
-          id:'31'
-        }
-      },
-      {
-        path: 'flopSettings',
-        component: () => import('@/views/jubao/flopSettings.vue'),
-        name: 'flopSettings',
-        meta: {
-          title: "翻牌设置",
-          icon: 'el-icon-s-help',
-          hidden: false,
-          roles: ['admin', 'jerry'],
-          id:'32'
-        }
-      },
+      // {
+      //   path: 'turntableSettings',
+      //   component: () => import('@/views/jubao/turntableSettings.vue'),
+      //   name: 'turntableSettings',
+      //   meta: {
+      //     title: "转盘设置",
+      //     icon: 'el-icon-s-help',
+      //     hidden: false,
+      //     roles: ['admin', 'jerry'],
+      //     id:'31'
+      //   }
+      // },
+      // {
+      //   path: 'flopSettings',
+      //   component: () => import('@/views/jubao/flopSettings.vue'),
+      //   name: 'flopSettings',
+      //   meta: {
+      //     title: "翻牌设置",
+      //     icon: 'el-icon-s-help',
+      //     hidden: false,
+      //     roles: ['admin', 'jerry'],
+      //     id:'32'
+      //   }
+      // },
     ]
   },
   {

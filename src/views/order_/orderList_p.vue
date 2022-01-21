@@ -202,6 +202,7 @@
                       type="success"
                       style="margin-right: 20px;display:inline-block;height:20px!important;"
                       @click="seeBei(scope.row,scope.$index)"
+                      v-if="scope.row.save_log_total != 0"
                       >记录</el-button
                     >
                     <!-- <span style="margin-right:20px;" v-if="scope.row.live_id == 0">订单类型:{{scope.row.activity_type == 0 ? '普通订单' : '营销订单'}}</span> -->

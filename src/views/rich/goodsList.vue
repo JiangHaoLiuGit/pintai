@@ -90,7 +90,7 @@
               <el-table-column label="商品名称">
                 <template slot-scope="scope">
                   <div v-if="spanArr[scope.$index]>0" class="clearfix" style="text-align: left">
-                    <div class="lt" style="width:80%;margin:10px 0;">
+                    <div class="lt" style="width:80%;margin:3px 0;">
                       <span style="margin-right:40px;font-size: 14px;">订单编号:{{ scope.row.order_no }}</span>
                       <span style="margin-right:40px;font-size: 14px;">订单id:{{ scope.row.order_id }}</span>
                       <span style="margin-right:40px;font-size: 14px;">三方交易号:{{ scope.row.third_id!=''?scope.row.third_id:"暂无" }}</span>
@@ -113,7 +113,7 @@
                     </div>
                   </div>
                   <div v-else style="text-align:left;">
-                    <div style="min-height:80px;display:flex;align-items: center;">
+                    <div style="min-height:60px;display:flex;align-items: center;">
                       {{ scope.row.name1 }}
                     </div>
                     <div>规格:{{ scope.row.sku_data1 != "" ? scope.row.sku_data1 : "无" }}</div>
@@ -121,7 +121,7 @@
                 </template>
               </el-table-column>
               <el-table-column label="图片" width="150" align="center">
-                <template slot-scope="scope">
+                <template slot-scope="scope" style="height:80px">
                   <el-image
                     :src="scope.row.image1"
                     fit="cover"
@@ -177,6 +177,12 @@
                     <li style="text-align: left;">
                       <span>账号:</span><span>{{ scope.row.account }}</span>
                     </li>
+                  </ul>
+                </template>
+              </el-table-column>
+              <el-table-column label="收货信息" width="250" align="center">
+                <template slot-scope="scope">
+                  <ul>
                     <li style="text-align: left;margin-top:10px;" class="clearfix">
                        <span>收货人:</span> <span>{{ scope.row.address_user }}</span>
                     </li>
@@ -277,7 +283,7 @@
                 v-model="seachVales"
               >
               </el-input>
-              <el-select v-model="shen_status1" class="marginRight lt" placeholder="请选择审核状态">
+              <el-select v-model="shen_status1" class="marginRight lt" placeholder="请选择收益类型">
                 <el-option
                   v-for="item in shen_status_list1"
                   :key="item.id"
@@ -504,7 +510,7 @@ export default {
   },
   created() {
     this.get_selling_order_list(); //获取推广列表
-    this.height = document.body.clientHeight - 320
+    this.height = document.body.clientHeight - 270
   },
   methods: {
     //划入
@@ -1336,5 +1342,8 @@ export default {
 /deep/ .el-table--enable-row-hover .el-table__body:hover tr.active>td{
   background-color:#dce1e8!important;
   // #dce1e8
+}
+/deep/ .el-table .cell{
+  line-height:20px;
 }
 </style>

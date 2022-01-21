@@ -138,6 +138,7 @@
                       type="success"
                       style="margin-right: 20px;display:inline-block;height:20px!important;"
                       @click="seeBei(scope.row,scope.$index)"
+                      v-if="scope.row.save_log_total != 0"
                       >记录</el-button
                     >
                     <!-- <span style="margin-right:20px;color: #6a6ae0;">运营商:{{scope.row.store_id == "0"? "平台自营": scope.row.store_name? scope.row.store_name: "未知"}}</span> -->
