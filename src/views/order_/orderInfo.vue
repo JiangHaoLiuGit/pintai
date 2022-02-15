@@ -35,6 +35,7 @@
             <span style="margin-right: 20px"
               >支付时间：{{orderInfo.info.paid_time}}</span
             >
+            
           </div>
         </div>
         <div class="tbody clearfix" style="height: 130px">
@@ -90,7 +91,7 @@
                 title="买家已收货"
                 :description="orderInfo.info.delivery_time"
               ></el-step>
-              <el-step title="交易完成"></el-step>
+              <el-step title="交易完成" :description="orderInfo.info.complate_time"></el-step>
             </el-steps>
           </div>
         </div>
@@ -621,7 +622,7 @@
                 </div>
                 <div class="lt cont">
                   <div class="text"><el-radio v-model="radio" label="1">快递物流</el-radio></div>
-                  <div class="text" style="margin-top:5px"><el-radio v-model="radio" label="2">买家自提</el-radio></div>
+                  <!-- <div class="text" style="margin-top:5px"><el-radio v-model="radio" label="2">买家自提</el-radio></div> -->
                 </div>
               </div>
               <div class="lt son">
@@ -1016,6 +1017,9 @@ export default {
           ), 
           res.data.err_msg.paid_time = that.commonJs.timestampToTime(
             res.data.err_msg.paid_time
+          ), 
+          res.data.err_msg.complate_time = that.commonJs.timestampToTime(
+            res.data.err_msg.complate_time
           ), 
           this.orderInfo.info = res.data.err_msg
           console.log(this.orderInfo.info)

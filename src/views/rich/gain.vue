@@ -111,6 +111,7 @@
             </div>
           </div>
           <div class="button_type">
+            <el-button type="success" @click="user_derive_excel1">导出</el-button>
             <el-button type="primary" @click="pick_seach2">搜索</el-button>
             <el-button type="primary" icon="el-icon-refresh" @click="fn3(1)"
               >刷新</el-button
@@ -147,6 +148,11 @@
                 label="用户昵称"
               ></el-table-column>
               <el-table-column
+                prop="bank_card_user"
+                label="开卡人姓名"
+              ></el-table-column>
+              
+              <el-table-column
                 prop="account"
                 label="账号"
               ></el-table-column>
@@ -162,6 +168,16 @@
                   <div v-else-if="scope.row.account_type == 2">支付宝</div>
                 </template>
               </el-table-column>
+              
+              <el-table-column
+                prop="amount"
+                label="提现金额"
+              ></el-table-column>
+              <el-table-column
+                prop="amount_received"
+                label="到账金额"
+              ></el-table-column>
+              
               <!-- <el-table-column label="收益类型分润类型" width="200">
                   <template slot-scope="scope">
                     <div>{{ scope.profit_type }}</div>
@@ -1077,7 +1093,21 @@ export default {
     //导出
     user_derive_excel1() {
       let that = this;
-
+      
+      if (
+        that.nickname1 == "" &&
+        that.pick_condition1 === "" &&
+        that.pick_condition2 === "" &&
+        that.time_value1 == ""
+      ) {
+        that.$message({
+          message: "请选择任意一种搜索类型",
+          type: "warning",
+        });
+        return;
+      }
+      console.log(this.time_value1);
+      console.log(this.pick_condition2);
       if (this.pick_condition2 != "" || this.time_value1 != "") {
         if (this.time_value1 == "" || this.pick_condition2 == "") {
           that.$message({
@@ -1116,9 +1146,7 @@ export default {
             } else {
               window.open(
                 publicFile.address +
-                  "/new_admin.php?c=finance&a=user_derive_excel&keywords=" +
-                  that.nickname1 +
-                  "&status=" +
+                  "/new_admin.php?c=selling_earnings&a=withdraw_deposit_excel&status=" +
                   that.pick_condition1 +
                   "&time_type=" +
                   that.pick_condition2 +

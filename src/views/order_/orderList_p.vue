@@ -54,7 +54,7 @@
         </span>
       </el-tab-pane>
     </el-tabs>
-    <!-- <div class="seach"> -->
+    <div class="seach">
 
     <!-- <el-date-picker
         :clearable="false"
@@ -67,10 +67,9 @@
       >
       </el-date-picker> -->
 
-    <!-- </div> -->
-    <div class="seach_copy" style="padding-top: 60px">
-      <div class="seach_select">
-        <el-select v-model="pick_condition" placeholder="请选择搜索类型">
+    </div>
+    <div class="sreachDiv clearfix">
+      <el-select class="lt" v-model="pick_condition" placeholder="请选择搜索类型">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -80,13 +79,14 @@
           </el-option>
         </el-select>
         <el-input
+         class="lt"
           v-model="pick_value"
           placeholder="请输入搜索内容"
           style="width: 240px"
           @keyup.enter.native="pick_seach"
         ></el-input>
 
-        <el-select v-model="payment_status_value" placeholder="请选择支付方式">
+        <el-select class="lt" v-model="payment_status_value" placeholder="请选择支付方式">
           <el-option
             v-for="item in payment_method_list"
             :key="item.value"
@@ -97,6 +97,7 @@
           </el-option>
         </el-select>
         <el-select
+         class="lt"
           v-model="payment_supplier_value"
           placeholder="请选择运营商"
         >
@@ -109,7 +110,7 @@
           </el-option>
         </el-select>
 
-        <el-select v-model="time_type" placeholder="请选择时间类型">
+        <el-select class="lt" v-model="time_type" placeholder="请选择时间类型">
           <el-option
             v-for="item in time_list"
             :key="item.value"
@@ -119,6 +120,7 @@
           </el-option>
         </el-select>
         <el-date-picker
+         class="lt"
           v-model="time_value"
           type="datetimerange"
           :picker-options="pickerOptions"
@@ -129,15 +131,21 @@
         >
           <!-- daterange -->
         </el-date-picker>
-      </div>
-      <div class="button_type" style="float: right">
-        <el-button type="success" @click="user_derive_excel1">导出</el-button>
-        <el-button type="primary" @click="pick_seach">搜索</el-button>
-        <el-button type="primary" icon="el-icon-refresh" @click="fn1(1)"
+
+        <el-button type="success" class="lt" @click="user_derive_excel1">导出</el-button>
+        <el-button type="primary" class="lt" @click="pick_seach">搜索</el-button>
+        <el-button type="primary" class="lt" icon="el-icon-refresh" @click="fn1(1)"
           >刷新</el-button
         >
-      </div>
     </div>
+    <!-- <div class="seach_copy" style="padding-top: 60px">
+      <div class="seach_select">
+        
+      </div>
+      <div class="button_type" style="float: right">
+        
+      </div>
+    </div> -->
 
     <el-row :gutter="20" class="goodsindex-list2" style="margin: 0 0 0 0">
       <el-col :span="24">
@@ -988,7 +996,7 @@
               </div>
               <div class="lt cont">
                 <div class="text"><el-radio v-model="radio" label="1">快递物流</el-radio></div>
-                <div class="text" style="margin-top:5px"><el-radio v-model="radio" label="2">买家自提</el-radio></div>
+                <!-- <div class="text" style="margin-top:5px"><el-radio v-model="radio" label="2">买家自提</el-radio></div> -->
               </div>
             </div>
             <div class="lt son">
@@ -1508,7 +1516,7 @@ export default {
     // this.firstFun("third")
     // this.firstFun("fourth")
     // this.firstFun("eight")
-    this.height = document.body.clientHeight - 280
+    this.height = document.body.clientHeight - 310
   },
 
   methods: {
@@ -4857,7 +4865,16 @@ export default {
 /deep/ .el-dialog__body {
   padding: 30px 50px;
 }
-
+.sreachDiv{
+  padding: 0 10px 10px 10px;
+  .lt{
+    margin-right: 5px;
+    margin-top: 10px;
+  }
+  .el-button+.el-button{
+    margin-left: 0;
+  }
+}
 .info_class {
   ul {
     li {

@@ -39,6 +39,7 @@
               >下单时间：{{refundInfo.info.add_time}}</span
             >
             <span style="margin-right: 20px">支付时间：{{ refundInfo.info.paid_time }}</span>
+            
           </div>
 
           <img src="../../assets/image/yongChuo.png" v-if="refundInfo.info.refundStatus == 2" class="poa" style="width:200px;z-index:1000;top:-94px;right:0;" alt="" />
@@ -109,7 +110,8 @@
                 title="卖家处理退款"
                 :description="refundInfo.info.refund_time"
               ></el-step>
-              <el-step title="退款完成"></el-step>
+              <!--  -->
+              <el-step title="退款完成" :description="refundInfo.info.refund_time"></el-step>
             </el-steps>
           </div>
         </div>
@@ -163,7 +165,7 @@
                 :description="refundInfo.info.refund_time"
               ></el-step>
               <el-step title="买家寄回商品" :description="refundInfo.info.express_time"></el-step>
-              <el-step title="退款完成"></el-step>
+              <el-step title="退款完成" :description="refundInfo.info.refund_time"></el-step>
             </el-steps>
           </div>
         </div>
@@ -1511,14 +1513,17 @@ export default {
             res.data.err_msg.info.express_time = that.commonJs.timestampToTime(
               res.data.err_msg.info.express_time
             );
-            res.data.err_msg.info.refund_time = that.commonJs.timestampToTime(
-              res.data.err_msg.info.refund_time
-            );
             if (res.data.err_msg.info.paid_time) {
               res.data.err_msg.info.paid_time = that.commonJs.timestampToTime(
                 res.data.err_msg.info.paid_time
               );
             }
+            if (res.data.err_msg.info.refund_time) {
+              res.data.err_msg.info.refund_time = that.commonJs.timestampToTime(
+                res.data.err_msg.info.refund_time
+              );
+            }
+            
             if (res.data.err_msg.info.add_time) {
               res.data.err_msg.info.add_time = that.commonJs.timestampToTime(
                 res.data.err_msg.info.add_time
@@ -2222,7 +2227,7 @@ export default {
   flex-basis: 400px !important;
 }
 /deep/ .huo .el-steps .el-step.is-horizontal:nth-of-type(4) {
-  flex-basis: 100px !important;
+  flex-basis: 200px !important;
 }
 .info {
   padding: 10px 20px;

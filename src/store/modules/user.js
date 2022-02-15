@@ -31,7 +31,7 @@ const actions = { //和mutations类似 不过actions支持异步操作 store.dis
             }, 1000)
         })
     },
-
+    // 劲仔 豆干,达利园蛋黄派
     // 获取用户角色信息
     getInfo({ commit, state }) {
         return new Promise((resolve) => {

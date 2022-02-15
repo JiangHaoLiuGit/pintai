@@ -31,6 +31,17 @@ export default {
 .topHead{
   color: #ee8f29;
 }
+.sreachDiv{
+  padding: 0 10px 10px 10px;
+  .lt{
+    margin-right: 15px;
+    margin-top: 10px;
+  }
+  .el-button+.el-button{
+    margin-left: 0;
+  }
+}
+ 
 .el-table__row .el-button+.el-button{
   margin-left: 0!important;
 }

@@ -306,6 +306,10 @@
                   label="用户昵称"
                 ></el-table-column>
                 <el-table-column
+                prop="bank_card_user"
+                label="开卡人姓名"
+              ></el-table-column>
+                <el-table-column
                   prop="phone"
                   label="用户手机号"
                 ></el-table-column>

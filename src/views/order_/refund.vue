@@ -28,8 +28,28 @@
     <div class="seach">
       
     </div>
-    <div class="seach_copy">
-      <div class="seach_select">
+    <div class="sreachDiv clearfix">
+      <el-input class="lt" v-model="refund_search" @keyup.enter.native="pick_seach()" style="width:300px" placeholder="订单/售后/三方交易号/收货人/收货人电话"></el-input>
+      <el-input class="lt" v-model="refund_stroeId" @keyup.enter.native="pick_seach()" style="width:200px" placeholder="运营商ID"></el-input>
+      <el-input class="lt" v-model="refund_stroeName" @keyup.enter.native="pick_seach()" style="width:200px" placeholder="运营商名称"></el-input>
+      <el-date-picker
+        v-model="time_value"
+         class="lt"
+        type="datetimerange"
+        :picker-options="pickerOptions"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+      >
+      </el-date-picker>
+      <el-button type="success" class="lt" @click="user_derive_excel1">导出</el-button>
+      <el-button type="primary" class="lt" @click="pick_seach">搜索</el-button>
+      <el-button type="primary" class="lt" icon="el-icon-refresh" @click="fn1(1)"
+        >刷新</el-button
+      >
+    </div>
+    <!-- <div class="seach_copy">
+      <div class="seach_select"> -->
         
       <!-- <el-date-picker
         :clearable="false"
@@ -51,27 +71,12 @@
           >
           </el-option>
         </el-select> -->
-        <el-input v-model="refund_search" @keyup.enter.native="pick_seach()" style="width:300px" placeholder="订单/售后/三方交易号/收货人/收货人电话"></el-input>
-        <el-input v-model="refund_stroeId" @keyup.enter.native="pick_seach()" style="width:200px" placeholder="运营商ID"></el-input>
-        <el-input v-model="refund_stroeName" @keyup.enter.native="pick_seach()" style="width:200px" placeholder="运营商名称"></el-input>
-        <el-date-picker
-          v-model="time_value"
-          type="datetimerange"
-          :picker-options="pickerOptions"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        >
-        </el-date-picker>
-      </div>
+        
+      <!-- </div>
       <div class="button_type">
-        <el-button type="success" @click="user_derive_excel1">导出</el-button>
-        <el-button type="primary" @click="pick_seach">搜索</el-button>
-        <el-button type="primary" icon="el-icon-refresh" @click="fn1(1)"
-          >刷新</el-button
-        >
+        
       </div>
-    </div>
+    </div> -->
 
     <el-row :gutter="20" class="goodsindex-list goodsindex-list2">
       <el-col :span="24">
@@ -1325,7 +1330,7 @@ export default {
     // this.firstFun("seven")
     // this.firstFun("third")
     // this.firstFun("six")
-    this.height = document.body.clientHeight - 270
+    this.height = document.body.clientHeight - 260
   },
 
   methods: {

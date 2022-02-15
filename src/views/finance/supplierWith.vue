@@ -194,6 +194,11 @@
                 width="140"
               ></el-table-column>
               <el-table-column
+                prop="payment_time"
+                label="完成时间"
+                width="140"
+              ></el-table-column>
+              <el-table-column
                 prop="phone"
                 label="供应商账号"
               ></el-table-column>
@@ -201,8 +206,9 @@
                 label="供应商名称"
                 width="140"
               >
-                <template slot-scope="scope">{{scope.row.store_id == 0 ? "平台自营": scope.row.name}}</template>
-                
+                <template slot-scope="scope">
+                  {{scope.row.store_id == 0 ? "平台自营": scope.row.name}}
+                </template>
               </el-table-column>
               <el-table-column
                 prop="store_id"
@@ -1276,6 +1282,7 @@ export default {
     get_agent_list1(index) {
       this.anchor_id = "";
       this.live_id = "-100";
+      this.pick_condition2 = ''
       this.keywords = "";
       this.time_value1 = "";
       let that = this;

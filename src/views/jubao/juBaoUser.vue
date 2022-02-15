@@ -205,7 +205,9 @@
                   <el-table-column prop="create_time" label="时间"> </el-table-column>
                   <el-table-column prop="score_type_str" label="类型"> </el-table-column>
                   <el-table-column prop="type_str" label="业务"> </el-table-column>
-                  <el-table-column prop="after" label="数量"> </el-table-column>
+                  <el-table-column prop="score" label="变更的积分"> </el-table-column>
+                  <el-table-column prop="before" label="变更前的积分"> </el-table-column>
+                  <el-table-column prop="after" label="变更后的积分"> </el-table-column>
                 </el-table>
               </el-col>
             </el-row>
