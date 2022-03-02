@@ -27,6 +27,7 @@
               <span v-else>暂无</span>
               </span
             >
+            <span v-if="Number(orderInfo.info.discount_price) > 0" style="background:#ffe6d9;padding:2px 4px;border-radius:2px;color:#ee0c0c;font-size: 14px;">新用户特惠</span>
           </div>
           <div style="font-size: 15px">
             <span style="margin-right: 20px"
@@ -184,7 +185,7 @@
             </el-table-column>
             <el-table-column label="优惠"> 
                <template>
-                <div>暂无</div>
+                <div style="color:#ee0c0c;">{{orderInfo.info.discount_price}}元</div>
               </template>
             </el-table-column>
             <el-table-column label="总额">

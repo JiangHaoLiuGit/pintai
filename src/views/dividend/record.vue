@@ -3,7 +3,7 @@
     <div class="pageItem" v-show="pageType == 1">
       <div class="topHead clearfix">
         <s class="lt"></s>
-        <span class="lt">用户管理</span>
+        <span class="lt">用户分红</span>
       </div>
       
       
@@ -12,13 +12,13 @@
           <el-input
             class="marginRight lt"
             style="width: 300px"
-            placeholder="请输入账号/ID/昵称"
+            placeholder="请输入账号/ID/昵称/分红单号/分红人姓名"
             prefix-icon="el-icon-search"
             @keyup.enter.native="pick_seach"
             v-model="seachVale"
           >
           </el-input>
-          <el-select v-model="type_status" class="marginRight lt" placeholder="请选择激活类型">
+          <el-select v-model="type_status" class="marginRight lt" placeholder="请选择分红类型">
             <el-option
               v-for="item in type_status_list"
               :key="item.id"
@@ -65,37 +65,20 @@
             >
               <el-table-column label="序号" type="index" width="50">
               </el-table-column>
-              <el-table-column label="昵称">
+              <el-table-column prop="complate_time" label="分红时间"> </el-table-column>
+              <el-table-column prop="order_no" label="分红单号"> </el-table-column>
+              <el-table-column prop="time_frame" label="分红时段"> </el-table-column>
+              <el-table-column prop="nickname" label="用户昵称"> </el-table-column>
+              <el-table-column prop="account" label="用户账号"> </el-table-column>
+              <el-table-column prop="uid" label="UID"> </el-table-column>
+              <el-table-column prop="real_name" label="分红人姓名"> </el-table-column>
+              <el-table-column prop="share_type_str" label="分红类型"> </el-table-column>
+              <el-table-column label="分红占比">
                 <template slot-scope="scope">
-                  <div class="green pointer" @click="open(scope.row,'1')">{{scope.row.nickname}}</div>
+                  {{scope.row.share_ratio}}%
                 </template>
               </el-table-column>
-              <el-table-column prop="account" label="账号" width="100"> </el-table-column>
-              <el-table-column prop="uid" label="UID" width="60"> </el-table-column>
-              <el-table-column label="资格合伙人激活">
-                <template slot-scope="scope">
-                  <div class="green pointer" v-if="scope.row.is_member == '1'" @click="open(scope.row,'2')">是</div>
-                  <div class="green pointer" v-else @click="open(scope.row,'2')">否</div>
-                </template>
-              </el-table-column>
-
-              <el-table-column prop="trial_time" label="资格合伙人时间" width="150">
-              </el-table-column>
-              <el-table-column prop="lc_num" label="联创合伙人"></el-table-column>
-              <el-table-column prop="province_num" label="省级合伙人"></el-table-column>
-              <el-table-column prop="city_num" label="市级合伙人"></el-table-column>
-              <el-table-column label="资格合伙人券">
-                <template slot-scope="scope">
-                  <div class="green pointer" @click="open(scope.row,'3')">{{scope.row.total_quota}}</div>
-                </template>
-              </el-table-column>
-              <el-table-column label="直推数量">
-                <template slot-scope="scope">
-                  <div class="green pointer" @click="open(scope.row,'4')">{{scope.row.drive_num}}</div>
-                </template>
-              </el-table-column>
-              <el-table-column prop="recommend_name" label="推荐人"></el-table-column>
-              <el-table-column prop="recommend_account" label="推荐人账号"></el-table-column>
+              <el-table-column prop="fx_profit" label="分红金额"> </el-table-column>
             </el-table>
 
           </el-col>
@@ -266,14 +249,14 @@
           </div>
         </el-dialog>
 
-        <!-- 用户直推详情 -->
+        <!-- 资格合伙人手动管理 -->
         <el-dialog
           width="70%"
           class="remarks_box"
           :visible.sync="two_tan"
           append-to-body
         >
-          <div class="info"><s class="s"></s>用户直推详情</div>
+          <div class="info"><s class="s"></s>资格合伙人手动管理</div>
             <div style="padding: 30px 20px">
               <div class="blockBox divs">
                 <!-- <div class="textItem clearfix marginBottom">
@@ -332,7 +315,7 @@
                         <el-table-column prop="member_time" label="生效时间" width="150"> </el-table-column>
                         <el-table-column label="昵称">
                           <template slot-scope="scope">
-                            <div class="green pointer" @click="open(scope.row,'1')">{{scope.row.nickname}}</div>
+                            {{scope.row.nickname}}
                           </template>
                         </el-table-column>
                         <el-table-column prop="account" label="账号"> </el-table-column>
@@ -699,7 +682,7 @@
   </div>
 </template>
 <script>
-import { selling_user_list,
+import { user_share,
 user_identity_list,
 user_ticket_list,
 activate_partner,
@@ -817,11 +800,11 @@ export default {
       type_status_list: [
         {
           id: "1",
-          name: "已激活",
+          name: "自主分红",
         },
         {
           id: "2",
-          name: "未激活",
+          name: "推荐分红",
         }
       ],
       
@@ -944,7 +927,7 @@ export default {
   },
   created() {
     this.get_agent_list(); //获取推广列表
-    this.get_province1(); //获取省份
+    // this.get_province1(); //获取省份
     this.height = document.body.clientHeight - 280
     this.height1 = document.body.clientHeight - 320
   },
@@ -1226,13 +1209,13 @@ export default {
         page: 1,
         page_size: this.pageSize,
       };
-      selling_user_list(request_form)
+      user_share(request_form)
         .then((res) => {
           if (res.data.err_code == 0) {
             this.loading = false;
             res.data.err_msg.list.forEach((element) => {
-              element.trial_time = this.commonJs.timestampToTime(
-                element.trial_time
+              element.complate_time = this.commonJs.timestampToTime(
+                element.complate_time
               );
             });
             this.extendList = res.data.err_msg.list;
@@ -1269,11 +1252,11 @@ export default {
         time2 = this.commonJs.dataTime(this.time_value[1]);
       }
       this.loading = true;
-      selling_user_list({
+      user_share({
         page: page,
         page_size: number,
-        user_search:this.seachVale,
-        is_member:this.type_status,
+        search:this.seachVale,
+        share_type:this.type_status,
         start_time: time1,
         end_time: time2,
       })
@@ -1282,8 +1265,8 @@ export default {
           if (res.data.err_code == 0) {
             this.loading = false;
             res.data.err_msg.list.forEach((element) => {
-              element.trial_time = this.commonJs.timestampToTime(
-                element.trial_time
+              element.complate_time = this.commonJs.timestampToTime(
+                element.complate_time
               );
             });
             this.extendList = res.data.err_msg.list;
@@ -1333,11 +1316,11 @@ export default {
         time2 = this.commonJs.dataTime(this.time_value[1]);
       }
       this.loading = true;
-      selling_user_list({
+      user_share({
         page: 1,
         page_size: this.pageSize,
-        user_search:this.seachVale,
-        is_member:this.type_status,
+        search:this.seachVale,
+        share_type:this.type_status,
         start_time: time1,
         end_time: time2,
       })
@@ -1346,8 +1329,8 @@ export default {
           if (res.data.err_code == 0) {
             this.loading = false;
             res.data.err_msg.list.forEach((element) => {
-              element.trial_time = this.commonJs.timestampToTime(
-                element.trial_time
+              element.complate_time = this.commonJs.timestampToTime(
+                element.complate_time
               );
             });
             this.extendList = res.data.err_msg.list;

@@ -675,7 +675,6 @@ export default {
         } else {
           this.city_ifShow1 = false;
           this.code.city_code = "";
-          console.log(this.code);
         }
       },
     },
@@ -683,7 +682,6 @@ export default {
       handler: function (news, olds) {
         if (news) {
           this.city_ifShow = true;
-          console.log("我透");
           if (this.shen_wen.contact_city) {
           } else {
             this.shen_wen.contact_city = "";

@@ -108,6 +108,7 @@
                     <span style="margin-right:20px;font-weight: bold; color: #6a6ae0;font-size: 14px;">订单编号:{{ scope.row.order_no }}</span>
                     <span style="margin-right:20px;font-weight: bold; color: #6a6ae0;font-size: 14px;">商户单号:{{ scope.row.relation_no }}</span>
                     <span style="margin-right:20px;font-weight: bold; color: #6a6ae0;font-size: 14px;">三方交易号:{{ scope.row.third_id }}</span>
+                    <span v-if="Number(scope.row.discount_price) > 0" style="background:#ffe6d9;padding:2px 4px;border-radius:2px;color:#ee0c0c;font-size: 14px;">新用户特惠</span>
                   </div>
                   <div class="ltSpan clearfix">
                     
@@ -262,6 +263,12 @@
                 <div style="margin:10px 0;">
                   退橘宝:{{ scope.row.product_score }}个<span>({{scope.row.score_value}}元)</span>
                 </div>
+                <div style="margin:10px 0;color:#ee0c0c;">
+                  共优惠:{{ scope.row.discount_price }}元
+                </div>
+                <!-- <li style="text-align: left;">
+                    
+                </li> -->
               </div>
               <div v-else-if="scope.row.refund_status == 3 || scope.row.refund_status == 4" style="color:#ee8f29;">
                 <div style="margin:10px 0;font-weight:bold;">
@@ -276,10 +283,16 @@
                 <div style="margin:10px 0;">
                   退橘宝:{{ scope.row.product_score }}个<span>({{scope.row.score_value}}元)</span>
                 </div>
+                <div style="margin:10px 0;color:#ee0c0c;">
+                  共优惠:{{ scope.row.discount_price }}元
+                </div>
               </div>
               <div v-else style="color:#000;">
                 <div style="margin:10px 0;">
                   订单合计:{{ scope.row.sub_total }}元 
+                </div>
+                <div style="margin:10px 0;">
+                  实付金额:{{ scope.row.pay_money }}元 
                 </div>
                 <div style="margin:10px 0;">
                   退现金:{{ scope.row.refund_cash }}元 
@@ -289,6 +302,9 @@
                 </div>
                 <div style="margin:10px 0;">
                   退橘宝:{{ scope.row.product_score }}个<span>({{scope.row.score_value}}元)</span>
+                </div>
+                <div style="margin:10px 0;color:#ee0c0c;">
+                  共优惠:{{ scope.row.discount_price }}元
                 </div>
               </div>
               

@@ -223,6 +223,11 @@ export const get_area = params => {
 	return axios.post(`new_admin.php?c=public&a=get_area`, Qs.stringify(params))
 }
 
+//店铺搜索——获取镇
+export const get_town = params => {
+	return axios.post(`new_admin.php?c=public&a=db_get_country`, Qs.stringify(params))
+}
+
 //店铺审核列表
 export const apply_list = params => {
 	return axios.post(`new_admin.php?c=store&a=apply_list`, Qs.stringify(params))
@@ -1825,3 +1830,85 @@ export const jvbao_freeze = params => {
 export const jvbao_used = params => {
 	return axios.post(`new_admin.php?c=jvbao&a=jvbao_used`, Qs.stringify(params))
 }
+
+
+//线下服务中心收益统计
+export const earnings_statistics = params => {
+	return axios.post(`new_admin.php?c=service_earnings&a=earnings_statistics`, Qs.stringify(params))
+}
+
+//服务中心收益明细
+export const earnings_details = params => {
+	return axios.post(`new_admin.php?c=service_earnings&a=earnings_details`, Qs.stringify(params))
+}
+
+//用户分红
+export const user_share = params => {
+	return axios.post(`new_admin.php?c=all_people_share&a=user_share`, Qs.stringify(params))
+}
+
+//用户分红额度
+export const user_share_list = params => {
+	return axios.post(`new_admin.php?c=all_people_share&a=user_share_list`, Qs.stringify(params))
+}
+
+//收益设置
+export const bonus_set = params => {
+	return axios.post(`new_admin.php?c=all_people_share&a=bonus_set`, Qs.stringify(params))
+}
+
+//橘宝可用额度
+export const jb_usable_index = params => {
+	return axios.post(`new_admin.php?c=all_people_share&a=jb_usable_index`, Qs.stringify(params))
+}
+
+//消费可用额度
+export const consume_index = params => {
+	return axios.post(`new_admin.php?c=all_people_share&a=consume_index`, Qs.stringify(params))
+}
+
+//线下服务中心审核列表
+export const audit_list = params => {
+	return axios.post(`new_admin.php?c=service_centre&a=audit_list`, Qs.stringify(params))
+}
+
+//服务中心详情
+export const service_centre_details = params => {
+	return axios.post(`new_admin.php?c=service_centre&a=details`, Qs.stringify(params))
+}
+
+//修改服务中心
+export const audit_save = params => {
+	return axios.post(`new_admin.php?c=service_centre&a=audit_save`, Qs.stringify(params))
+}
+
+//服务中心收益设置
+export const earnings_set = params => {
+	return axios.post(`new_admin.php?c=service_centre&a=earnings_set`, Qs.stringify(params))
+}
+
+//服务中心收益设置列表
+export const service_earnings_list = params => {
+	return axios.post(`new_admin.php?c=service_centre&a=earnings_list`, Qs.stringify(params))
+}
+
+//服务中心收益设置列表
+export const store_earnings_detail = params => {
+	return axios.post(`new_admin.php?c=finance&a=store_earnings_detail`, Qs.stringify(params))
+}
+
+//店铺费率和时间设置
+export const set_store = params => {
+	return axios.post(`new_admin.php?c=finance&a=set_store`, Qs.stringify(params))
+}
+
+//店铺费率和时间设置
+export const limit_money_number_list = params => {
+	return axios.post(`new_admin.php?c=all_people_share&a=limit_money_number_list`, Qs.stringify(params))
+}
+
+
+
+
+
+

@@ -236,6 +236,82 @@ export const asyncRoutes = [
   },
 
   {
+    path: '/dividend',
+    component: Layout,
+    redirect: '/dividend/index',
+    meta: {
+      title: "全民分红",
+      icon: 'el-icon-ship',
+      hidden: false,
+      id: '99'
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/dividend/index.vue'),
+        name: 'index',
+        meta: {
+          title: "分红额度",
+          icon: 'el-icon-ship',
+          hidden: false,
+          roles: ['admin', 'jerry'],
+          id: '100'
+        }
+      },
+      {
+        path: 'record',
+        component: () => import('@/views/dividend/record.vue'),
+        name: 'record',
+        meta: {
+          title: "分红记录",
+          icon: 'el-icon-ship',
+          hidden: false,
+          roles: ['admin', 'jerry'],
+          id: '101'
+        }
+      }
+    ]
+  },
+
+  {
+    path: '/offline',
+    component: Layout,
+    redirect: '/offline/audit',
+    meta: {
+      title: "线下服务中心",
+      icon: 'el-icon-ship',
+      hidden: false,
+      id: '102'
+    },
+    children: [
+      {
+        path: 'audit',
+        component: () => import('@/views/offline/audit.vue'),
+        name: 'audit',
+        meta: {
+          title: "审核管理",
+          icon: 'el-icon-ship',
+          hidden: false,
+          roles: ['admin', 'jerry'],
+          id: '103'
+        }
+      },
+      {
+        path: 'income',
+        component: () => import('@/views/offline/income.vue'),
+        name: 'income',
+        meta: {
+          title: "收益管理",
+          icon: 'el-icon-ship',
+          hidden: false,
+          roles: ['admin', 'jerry'],
+          id: '104'
+        }
+      }
+    ]
+  },
+
+  {
     path: '/consumer',
     component: Layout,
     redirect: '/consumer/Consumerlist',

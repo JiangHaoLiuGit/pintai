@@ -87,6 +87,10 @@ export default {
   content:"";
   clear:both;
 }
+.bbb{
+  color: #bbb;
+}
+
 .por{
   position: relative;
 }
@@ -309,6 +313,9 @@ export default {
 }
 .marginRight{
   margin-right: 20px;
+}
+.marginRightBig{
+  margin-right: 40px;
 }
 .green{
   color: #4d6eea;

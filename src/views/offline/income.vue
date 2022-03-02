@@ -1,9 +1,9 @@
 <template>
   <div class="page">
-    <div class="pageItem" v-show="pageType == 1">
+    <div class="pageItem">
       <div class="topHead clearfix">
         <s class="lt"></s>
-        <span class="lt">用户管理</span>
+        <span class="lt">线下服务点收益统计</span>
       </div>
       
       
@@ -18,15 +18,15 @@
             v-model="seachVale"
           >
           </el-input>
-          <el-select v-model="type_status" class="marginRight lt" placeholder="请选择激活类型">
-            <el-option
-              v-for="item in type_status_list"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
+          <el-input
+            class="marginRight lt"
+            style="width: 300px"
+            placeholder="请输入区域"
+            prefix-icon="el-icon-search"
+            @keyup.enter.native="pick_seach"
+            v-model="type_status"
+          >
+          </el-input>
           <el-date-picker
             :clearable="false"
             class="marginRight lt"
@@ -38,6 +38,7 @@
             end-placeholder="结束日期"
           >
           </el-date-picker>
+          
           <el-button
             type="primary"
             class="rt"
@@ -65,37 +66,26 @@
             >
               <el-table-column label="序号" type="index" width="50">
               </el-table-column>
-              <el-table-column label="昵称">
+              <el-table-column prop="create_time" label="申请时间"> </el-table-column>
+              <el-table-column prop="nickname" label="用户昵称"> </el-table-column>
+              <el-table-column prop="account" label="用户账号"> </el-table-column>
+              <el-table-column prop="uid" label="UID"> </el-table-column>
+              <el-table-column prop="real_name" label="分红人姓名"> </el-table-column>
+              <el-table-column label="服务中心区域">
                 <template slot-scope="scope">
-                  <div class="green pointer" @click="open(scope.row,'1')">{{scope.row.nickname}}</div>
+                  {{scope.row.province_str}}
+                  <span v-if="scope.row.city_str">-{{scope.row.city_str}}</span>
+                  <span v-if="scope.row.area_str">-{{scope.row.area_str}}</span>
+                  <span v-if="scope.row.country_str">-{{scope.row.country_str}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="account" label="账号" width="100"> </el-table-column>
-              <el-table-column prop="uid" label="UID" width="60"> </el-table-column>
-              <el-table-column label="资格合伙人激活">
-                <template slot-scope="scope">
-                  <div class="green pointer" v-if="scope.row.is_member == '1'" @click="open(scope.row,'2')">是</div>
-                  <div class="green pointer" v-else @click="open(scope.row,'2')">否</div>
-                </template>
-              </el-table-column>
+              <el-table-column prop="profit_type" label="分红类型"> </el-table-column>
 
-              <el-table-column prop="trial_time" label="资格合伙人时间" width="150">
-              </el-table-column>
-              <el-table-column prop="lc_num" label="联创合伙人"></el-table-column>
-              <el-table-column prop="province_num" label="省级合伙人"></el-table-column>
-              <el-table-column prop="city_num" label="市级合伙人"></el-table-column>
-              <el-table-column label="资格合伙人券">
+              <el-table-column label="累积金额">
                 <template slot-scope="scope">
-                  <div class="green pointer" @click="open(scope.row,'3')">{{scope.row.total_quota}}</div>
+                  <div class="green pointer" @click="open(scope.row,'3')">{{scope.row.add_up}}</div>
                 </template>
               </el-table-column>
-              <el-table-column label="直推数量">
-                <template slot-scope="scope">
-                  <div class="green pointer" @click="open(scope.row,'4')">{{scope.row.drive_num}}</div>
-                </template>
-              </el-table-column>
-              <el-table-column prop="recommend_name" label="推荐人"></el-table-column>
-              <el-table-column prop="recommend_account" label="推荐人账号"></el-table-column>
             </el-table>
 
           </el-col>
@@ -115,19 +105,17 @@
             </el-pagination>
           </el-col>
         </el-row>
-        <!-- 用户资格合伙人券详情 -->
-        <!--  -->
+        <!-- 橘宝可用额度 -->
         <el-dialog
-          width="60%"
+          width="70%"
           class="remarks_box"
           :visible.sync="one_tan"
           append-to-body
         >
-          <!--  -->
-          <div class="info"><s class="s"></s>用户资格合伙人券详情</div>
+          <div class="info"><s class="s"></s>服务中心收益明细</div>
             <div style="padding: 30px 20px">
               <div class="blockBox divs">
-                <div class="textItem clearfix marginBottom">
+                <div class="textItem clearfix marginBottom" style="margin-bottom:10px">
                   <div class="lt yellow marginRight">
                     当前用户:{{openItem.nickname}}
                   </div>
@@ -137,23 +125,42 @@
                   <div class="lt yellow marginRight">
                     账号:{{openItem.account}}
                   </div>
-                  <div class="lt yellow marginRight">
-                    数量:{{openItem.total_quota}}
+                  <div class="lt yellow marginRight" style="color:#444">
+                    线下服务中心:
+                    {{openItem.province_str}}
+                  <span v-if="openItem.city_str">-{{openItem.city_str}}</span>
+                  <span v-if="openItem.area_str">-{{openItem.area_str}}</span>
+                  <span v-if="openItem.country_str">-{{openItem.country_str}}</span>
                   </div>
-                  <div class="lt yellow marginRight">
-                    <el-input-number v-model="zi_num" @change="handleChange" :min="zi_nums" :max="100" label="描述文字"></el-input-number>
+                </div>
+                <div class="textItem clearfix marginBottom" style="margin-bottom:10px">
+                  <div class="lt marginRightBig">
+                    未完成:{{itemInfo.not_accomplish}}
                   </div>
-                  <el-button
-                      type="primary"
-                      class="rt"
-                      @click="zi_cun"
-                      >保存</el-button
-                    >
+                  <div class="lt marginRightBig">
+                    未入账:{{itemInfo.not_recorded}}
+                  </div>
+                  <div class="lt marginRightBig">
+                    已入账:{{itemInfo.recorded}}
+                  </div>
+                  <div class="lt marginRightBig" style="color:#ee8f29;">
+                      <!--  -->
+                    合计:{{openItem.add_up}}
+                  </div>
                 </div>
 
                 <div class="textItem">
                   <div class="clearfix" style="margin-bottom: 20px">
-                    <el-select v-model="seachVale2" class="marginRight lt" placeholder="请选择业务类型">
+                    <el-input
+                        class="marginRight lt"
+                        style="width: 250px"
+                        placeholder="请输入订单编号/用户昵称/用户账号"
+                        prefix-icon="el-icon-search"
+                        @keyup.enter.native="pick_seach2"
+                        v-model="seachVale4"
+                    >
+                    </el-input>
+                    <el-select v-model="seachVale2" class="marginRight lt" placeholder="请选择收益状态">
                       <el-option
                         v-for="item in seachVale2_list"
                         :key="item.id"
@@ -162,7 +169,7 @@
                       >
                       </el-option>
                     </el-select>
-                    <el-select v-model="type_status2" class="marginRight lt" placeholder="请选择数量类型">
+                    <el-select v-model="type_status2" class="marginRight lt" placeholder="请选择时间类型">
                       <el-option
                         v-for="item in type_status_list2"
                         :key="item.id"
@@ -209,40 +216,45 @@
                       >
                         <el-table-column label="序号" type="index" width="50">
                         </el-table-column>
-                        <el-table-column prop="create_time" label="生效时间" width="150"> </el-table-column>
-                        <el-table-column label="类型">
+                        <el-table-column prop="add_time" label="下单时间" width="150"> </el-table-column>
+                        <el-table-column prop="complate_time" label="订单完成时间" width="150"> </el-table-column>
+                        <el-table-column label="订单编号">
+                            <template slot-scope="scope" width="200">
+                                <div class="green pointer" @click="dingdan(scope.row.order_no)">{{scope.row.order_no}}</div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="total" label="订单金额"> </el-table-column>
+                        <el-table-column prop="fx_profit" label="服务费金额"> </el-table-column>
+                        <el-table-column label="订单状态">
+                          <template slot-scope="scope">
+                            <div v-if="scope.row.status == '1'">未支付</div>
+                            <div v-else-if="scope.row.status == '2'">待发货</div>
+                            <div v-else-if="scope.row.status == '3'">待收货</div>
+                            <div v-else-if="scope.row.status == '4'">已完成</div>
+                            <div v-else-if="scope.row.status == '5'">已取消</div>
+                            <div v-else-if="scope.row.status == '7'">已收货</div>
+                            <div v-else>未知</div>
+                          </template>
+                        </el-table-column>
+                        <el-table-column label="状态">
+                          <template slot-scope="scope">
+                            <div style="color:#20e876" v-if="scope.row.service_type == '1'">已结算</div>
+                            <div style="color:#ff980f" v-else-if="scope.row.service_type == '2'">未结算</div>
+                            <div style="color:#ff980f" v-else-if="scope.row.service_type == '3'">未完成</div>
+                            <div style="color:#ee0606" v-else-if="scope.row.service_type == '4'">已退款</div>
+                            <div v-else>未知</div>
+                          </template>
+                        </el-table-column>
+                        <!-- <el-table-column label="类型">
                           <template slot-scope="scope">
                             <div v-if="scope.row.coupon_type == '1'">增加</div>
                             <div v-else-if="scope.row.coupon_type == '2'">减少</div>
                             <div v-else>未知</div>
                           </template>
-                        </el-table-column>
-                        <el-table-column label="业务">
-                          <template slot-scope="scope">
-                            <div v-if="scope.row.type == '1'">联创系统赠送</div>
-                            <div v-else-if="scope.row.type == '2'">兑换</div>
-                            <div v-else-if="scope.row.type == '3'">转出</div>
-                            <div v-else-if="scope.row.type == '4'">转入</div>
-                            <div v-else-if="scope.row.type == '5'">手动系统赠送</div>
-                            <div v-else-if="scope.row.type == '6'">系统扣除</div>
-                            <div v-else>未知</div>
-                          </template>
-                        </el-table-column>
-                        <el-table-column prop="" label="数量">
-                          <template slot-scope="scope">
-                            <div v-if="scope.row.coupon_type == '1'">+{{scope.row.num}}</div>
-                            <div v-else-if="scope.row.coupon_type == '2'">-{{scope.row.num}}</div>
-                            <div v-else>未知</div>
-                          </template>
-                        </el-table-column>
-                        <el-table-column label="接收人/转赠人">
-                        <template slot-scope="scope">
-                            <div v-if="scope.row.type == '4'">{{scope.row.user_name}}(转赠人)</div>
-                            <div v-else-if="scope.row.type == '3'">{{scope.row.user_name}}</div>
-                            <div v-else>{{scope.row.user_name}}</div>
-                        </template>
-                        </el-table-column>
-                        <el-table-column prop="account" label="账号"></el-table-column>
+                        </el-table-column> -->
+                        <el-table-column prop="nickname" label="买家昵称"></el-table-column>
+                        <el-table-column prop="account" label="买家账号"></el-table-column>
+                        <el-table-column prop="uid" label="买家ID"></el-table-column>
                       </el-table>
                     </el-col>
                   </el-row>
@@ -265,443 +277,17 @@
             </div>
           </div>
         </el-dialog>
-
-        <!-- 用户直推详情 -->
-        <el-dialog
-          width="70%"
-          class="remarks_box"
-          :visible.sync="two_tan"
-          append-to-body
-        >
-          <div class="info"><s class="s"></s>用户直推详情</div>
-            <div style="padding: 30px 20px">
-              <div class="blockBox divs">
-                <!-- <div class="textItem clearfix marginBottom">
-                  <div class="lt yellow marginRight">
-                    当前用户:{{openItem.nickname}}
-                  </div>
-                  <div class="lt yellow marginRight">
-                    用户ID:{{openItem.uid}}
-                  </div>
-                  <div class="lt yellow marginRight">
-                    账号:{{openItem.account}}
-                  </div>
-                </div> -->
-                <div class="textItem">
-                  <div class="clearfix" style="margin-bottom: 20px">
-                    <el-input v-model="seachVale3" class="marginRight lt" style="width:200px" @keyup.enter.native="pick_seach3" placeholder="请输入账号/ID/昵称"></el-input>
-                    <el-date-picker
-                      :clearable="false"
-                      class="marginRight lt"
-                      v-model="time_value3"
-                      type="datetimerange"
-                      :picker-options="pickerOptions"
-                      range-separator="至"
-                      start-placeholder="开始日期"
-                      end-placeholder="结束日期"
-                    >
-                    </el-date-picker>
-                    <el-button
-                      type="primary"
-                      class="rt"
-                      style="margin-right: 10px"
-                      @click="pick_seach3"
-                      >搜索</el-button
-                    >
-                    <el-button
-                      type="primary"
-                      class="rt"
-                      style="margin-right: 10px"
-                      @click="fn4(1)"
-                      >刷新</el-button
-                    >
-                  </div>
-                  <el-row :gutter="20" class="goodsindex-list">
-                    <el-col :span="24">
-                      <el-table
-                        v-loading="loading3"
-                        ref="multipleTable1"
-                        :data="extendList3"
-                        border
-                        :height="500"
-                        style="width: 100%"
-                      >
-                        <el-table-column label="序号" type="index" width="50">
-                        </el-table-column>
-                        <el-table-column prop="reg_time" label="注册时间" width="150"> </el-table-column>
-                        <el-table-column prop="member_time" label="生效时间" width="150"> </el-table-column>
-                        <el-table-column label="昵称">
-                          <template slot-scope="scope">
-                            <div class="green pointer" @click="open(scope.row,'1')">{{scope.row.nickname}}</div>
-                          </template>
-                        </el-table-column>
-                        <el-table-column prop="account" label="账号"> </el-table-column>
-                        <el-table-column prop="uid" label="UID"> </el-table-column>
-                        <el-table-column prop="drive_num" label="直推数量"> </el-table-column>
-                        <el-table-column prop="lc_num" label="联合创始人"> </el-table-column>
-                        <el-table-column prop="city_num" label="市级合伙人"> </el-table-column>
-                        <el-table-column prop="province_num" label="省级合伙人"> </el-table-column>
-                      </el-table>
-                    </el-col>
-                  </el-row>
-                  <!-- 分页 -->
-                  <el-row :gutter="20" class="goodsindex-list" style="margin-top: 20px">
-                    <el-col :span="24" class="goodsindex-page-box">
-                      <el-pagination
-                        @size-change="handleSizeChange3"
-                        @current-change="handleCurrentChange3"
-                        :current-page="queryInfo3.page"
-                        :page-sizes="[5, 10, 20, 30, 50]"
-                        :page-size="queryInfo3.pageSize"
-                        layout="total, sizes, prev, pager, next, jumper"
-                        :total="queryInfo3.total"
-                      >
-                      </el-pagination>
-                    </el-col>
-                  </el-row>
-              </div>
-            </div>
-          </div>
-        </el-dialog>
-
-        <!-- 合伙人状态手动管理 -->
-        <el-dialog
-          width="30%"
-          class="remarks_box"
-          :visible.sync="three_tan"
-          append-to-body
-        >
-          <div class="info"><s class="s"></s>合伙人状态手动管理</div>
-          <div style="padding: 30px 20px">
-            <div class="clearfix">
-              <div class="lt yellow marginRight">
-                当前用户:{{openItem.nickname}}
-              </div>
-              <div class="lt yellow marginRight">
-                用户ID:{{openItem.uid}}
-              </div>
-              <div class="lt yellow marginRight">
-                账号:{{openItem.account}}
-              </div>
-            </div>
-            <div style="margin:10px 0">
-              <div>
-                资格合伙人状态:
-                <span class="newGreen" v-if="openItem.is_member == 1">已激活</span>
-                <span class="red" v-else-if="openItem.is_member == 2">未激活</span>
-              </div>
-            </div>
-            
-            <div class="gre">
-              <el-radio v-model="ji_type" style="margin:10px 0;" :label="1">开通资格合伙人(直接激活资格或人且无礼包发货)</el-radio>
-            </div>
-            <div class="reds">
-              <el-radio v-model="ji_type" :label="2">关闭资格合伙人(关闭资格合伙人资格，取消所有合伙人身份)</el-radio>
-            </div>
-          </div>
-          <div
-              slot="footer"
-              class="dialog-footer clearfix"
-              style="padding: 0 40px 0 30px; "
-            >
-              <el-button
-                type="success"
-                class="rt"
-                @click="cunWen"
-                :disabled='openItem.is_member == ji_type'
-                style="margin-left: 15px"
-                >保 存</el-button
-              >
-              <el-button type="danger" class="rt" @click="three_tan = false"
-                >取 消</el-button
-              >
-            </div>
-        </el-dialog>
         
       </div>
     </div>
 
-    <div class="pageItem" v-show="pageType == 2">
-      <div class="topHead clearfix">
-        <s class="lt"></s>
-        <span class="lt">用户详情</span>
-      </div>
-      <!--  -->
-      <div class="textItem clearfix">
-        <div class="lt yellow marginRight">
-          当前用户:{{openItem.nickname}}
-        </div>
-        <div class="lt yellow marginRight">
-          账号:{{openItem.account}}
-        </div>
-        <div class="lt yellow marginRight">
-          用户ID:{{openItem.uid}}
-        </div>
-      </div>
-      <div class="textItem">
-        <div class="clearfix" style="margin-bottom: 20px">
-          <el-select v-model="seachVale1" class="marginRight lt" placeholder="请选择身份类型">
-            <el-option
-              v-for="item in seachVale1_list"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
-          <el-select v-model="type_status1" class="marginRight lt" placeholder="请选择申请身份">
-            <el-option
-              v-for="item in type_status_list1"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
-          <el-date-picker
-            :clearable="false"
-            class="marginRight lt"
-            v-model="time_value1"
-            type="datetimerange"
-            :picker-options="pickerOptions"
-            range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
-          >
-          </el-date-picker>
-          <el-button
-            type="success"
-            class="rt"
-            style="margin-right: 10px"
-            @click="adds"
-            >身份管理</el-button
-          >
-          <el-button
-            type="primary"
-            class="rt"
-            style="margin-right: 10px"
-            @click="pick_seach1"
-            >搜索</el-button
-          >
-          <el-button
-            type="primary"
-            class="rt"
-            style="margin-right: 10px"
-            @click="fn2(1)"
-            >刷新</el-button
-          >
-          <el-button
-            type="primary"
-            class="rt"
-            style="margin-right: 10px"
-            @click="pageType = 1"
-            >返回</el-button
-          >
-        </div>
-        <el-row :gutter="20" class="goodsindex-list">
-          <el-col :span="24">
-            <el-table
-              v-loading="loading1"
-              ref="multipleTable1"
-              :data="extendList1"
-              border
-              :height="height1"
-              style="width: 100%"
-            >
-              <el-table-column label="序号" type="index" width="50">
-              </el-table-column>
-              <el-table-column prop="trial_time" label="生效时间" width="150"> </el-table-column>
-              <el-table-column label="类型">
-                <template slot-scope="scope">
-                  <div v-if="scope.row.agent_type == '1'">市代理</div>
-                  <div v-else-if="scope.row.agent_type == '2'">省代理</div>
-                  <div v-else-if="scope.row.agent_type == '3'">联创</div>
-                </template>
-              </el-table-column>
-              <el-table-column prop="region" label="身份"></el-table-column>
-              <el-table-column label="是否收益">
-                <template slot-scope="scope">
-                  <div v-if="scope.row.state == '2' && scope.row.agent_type == '3'">
-                    <div v-if="scope.row.is_profit == '1'" class="green pointer" @click="opens(scope.row,'2','1')">是</div>
-                    <div v-else-if="scope.row.is_profit == '2'" class="green pointer" @click="opens(scope.row,'2','2')">否</div>
-                  </div>
-                  <div v-else>
-                    <div v-if="scope.row.is_profit == '1'">是</div>
-                    <div v-else-if="scope.row.is_profit == '2'">否</div>
-                    <div v-else>未知</div>
-                  </div>
-                </template>
-              </el-table-column>
-              
-              <el-table-column prop="earnings" label="累计收益"></el-table-column>
-              <el-table-column label="开通流程">
-                <template slot-scope="scope">
-                  <div v-if="scope.row.type == '1'">正常流程</div>
-                  <div v-else-if="scope.row.type == '2'">手动开通</div>
-                  <div v-else-if="scope.row.type == '3'">赠送开通</div>
-                  <div v-else>未知</div>
-                </template>
-              </el-table-column>
-              <el-table-column label="状态">
-                <template slot-scope="scope">
-                  <div v-if="scope.row.state == '1'">审核中</div>
-                  <div v-else-if="scope.row.state == '2'">审核成功</div>
-                  <div v-else-if="scope.row.state == '3'">审核拒绝</div>
-                  <div v-else-if="scope.row.state == '4'">候补中</div>
-                  <div v-else-if="scope.row.state == '5'">取消(降级)</div>
-                  <div v-else>未知</div>
-                </template>
-              </el-table-column>
-              <el-table-column label="是否停用">
-                <template slot-scope="scope">
-                  <div v-if="scope.row.state == '2'">
-                    <div v-if="scope.row.is_open == '1'" class="green pointer" @click="opens(scope.row,'1','1')">开启</div>
-                    <div v-else-if="scope.row.is_open == '2'" class="green pointer" @click="opens(scope.row,'1','2')">停用</div>
-                  </div>
-                  <div v-else>
-                    <div v-if="scope.row.is_open == '1'">开启</div>
-                    <div v-else-if="scope.row.is_open == '2'">停用</div>
-                    <div v-else>未知</div>
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-        <!-- 分页 -->
-        <el-row :gutter="20" class="goodsindex-list" style="margin-top: 20px">
-          <el-col :span="24" class="goodsindex-page-box">
-            <el-pagination
-              @size-change="handleSizeChange1"
-              @current-change="handleCurrentChange1"
-              :current-page="queryInfo1.page"
-              :page-sizes="[5, 10, 20, 30, 50]"
-              :page-size="queryInfo1.pageSize"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="queryInfo1.total"
-            >
-            </el-pagination>
-          </el-col>
-        </el-row>
-      </div>
-      <!-- 反复确认框。烦啊 -->
-      <div class="box" v-show="kuang_show">
-        <div class="content" @click="kuang_show = false">
-          <div class="kuang" @click.stop="kuang_show = true">
-            <img src="../../assets/image/gantan.png" alt="" />
-            <div class="text">{{dateTitle}}？</div>
-            <el-button
-              type="danger"
-              @click.stop="kuang_show = false"
-              style="margin-bottom: 10px; margin-right: 36px"
-            >
-              取消
-            </el-button>
-            <el-button type="success" @click="sure_add"> 确认 </el-button>
-          </div>
-        </div>
-      </div>
-
-      <!-- 增加问答 -->
-      <el-dialog
-        width="30%"
-        class="remarks_box add"
-        :visible.sync="add_tan"
-        append-to-body
-      >
-        <div class="info">手动添加</div>
-        <div style="padding: 0 0 20px">
-          <div class="blockBox divs clearfix" style="padding:10px 20px;border-bottom:1px solid #cdcdcd">
-            <div class="lt marginRight" style="margin-right:30px">
-              用户昵称: {{openItem.nickname}}
-            </div>
-            <div class="lt marginRight">
-              账号:{{openItem.account}}
-            </div>
-          </div>
-          <div style="padding:30px;">
-            <div class="clearfix" style="margin-bottom:20px">
-              <div class="lt" style="width:66px">
-                已开通:
-              </div>
-              <div class="lt clearfix" style="width:calc(100% - 66px)">
-                <div v-if="kaitong.length > 0">
-                  <span class="lt marginRight" style="margin-bottom:5px" v-for="(item,index) in kaitong" :key="index">{{item}}</span>
-                </div>
-                <div v-else>
-                  暂无
-                </div>
-              </div>
-            </div>
-            <div>
-              <div>手动新增身份</div>
-              <div>
-                <el-radio v-model="shou_type" :disabled="lianchuang" style="margin:10px 0;" :label="1">联创合伙人*1</el-radio>
-              </div>
-              <div>
-                <el-radio v-model="shou_type" :label="2">
-                  <span>区域合伙人</span>
-                  <el-select
-                    style="width:40%;margin-left: 10px;"
-                    placeholder="请选择省份"
-                    v-model="code.province_code"
-                    :disabled="shou_type != 2"
-                  >
-                    <el-option
-                      v-for="item in provinceList1"
-                      :key="item.province_id"
-                      :label="item.name"
-                      :value="item.province_id"
-                    >
-                    </el-option>
-                  </el-select>
-                  <el-select
-                    placeholder="请选择市"
-                    v-show="city_ifShow1"
-                    v-model="code.city_code"
-                    style="margin-left: 10px;width:40%"
-                    clearable
-                    :disabled="shou_type != 2"
-                  >
-                    <el-option
-                      v-for="item in cityList1"
-                      :key="item.city_id"
-                      :label="item.name"
-                      :value="item.city_id"
-                    >
-                    </el-option>
-                  </el-select>
-                </el-radio>
-              </div>
-            </div>
-          </div>
-          <div
-            slot="footer"
-            class="dialog-footer clearfix"
-            style="padding: 10px 40px 10px 30px; margin-top: 20px"
-          >
-            <el-button
-              type="success"
-              class="rt"
-              @click="addWen"
-              style="margin-left: 15px"
-              >保 存</el-button
-            >
-            <el-button type="danger" class="rt" @click="add_tan = false"
-              >取 消</el-button
-            >
-          </div>
-        </div>
-      </el-dialog>
-
-    </div>
     
   </div>
 </template>
 <script>
-import { selling_user_list,
+import { earnings_statistics,
 user_identity_list,
-user_ticket_list,
+earnings_details,
 activate_partner,
 sys_give,
 identity_manage,
@@ -712,6 +298,7 @@ user_direct_drive_list } from "../../utils/axios";
 export default {
   data() {
     return {
+        itemInfo:{},
       shou_type:0,
       add_tan:false,
       
@@ -779,30 +366,23 @@ export default {
       seachVale2_list: [
         {
           id: "1",
-          name: "联创系统赠送",
+          name: "已入账",
         },
         {
           id: "2",
-          name: "兑换",
+          name: "未入账",
         },
         {
           id: "3",
-          name: "转赠",
+          name: "未完成",
         },
         {
           id: "4",
-          name: "接收",
-        },
-        {
-          id: "5",
-          name: "手动发放",
-        },
-        {
-          id: "6",
-          name: "手动扣减",
+          name: "已退款",
         }
       ],
       seachVale3: "",
+      seachVale4:"",
       openItem:{
 
       },
@@ -853,11 +433,11 @@ export default {
       type_status_list2: [
         {
           id: "1",
-          name: "增加",
+          name: "下单时间",
         },
         {
           id: "2",
-          name: "减少",
+          name: "完成时间",
         }
       ],
       city_ifShow1:false,
@@ -944,7 +524,7 @@ export default {
   },
   created() {
     this.get_agent_list(); //获取推广列表
-    this.get_province1(); //获取省份
+    // this.get_province1(); //获取省份
     this.height = document.body.clientHeight - 280
     this.height1 = document.body.clientHeight - 320
   },
@@ -1066,11 +646,7 @@ export default {
       }else if(type == 2){
         this.three_tan = true
       }else if(type == 3){
-        this.zi_num = 0
-        this.zi_nums = Number("-" + this.openItem.total_quota)
-        console.log(this.zi_nums)
         this.one_tan = true
-        
         this.get_agent_list2()
       }else if(type == 4){
         this.two_tan = true
@@ -1216,6 +792,10 @@ export default {
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+    dingdan(order){
+        // window.open(publicFile.address + "/h5/admin/dist/index.html#/order_/orderList_p?order_id=" + id)
+        this.$router.push({path:"/order_/orderList_p",query:{order_id:order}})
+    },
     //获取推广列表
     get_agent_list(index) {
       this.seachVale = "";
@@ -1226,13 +806,13 @@ export default {
         page: 1,
         page_size: this.pageSize,
       };
-      selling_user_list(request_form)
+      earnings_statistics(request_form)
         .then((res) => {
           if (res.data.err_code == 0) {
             this.loading = false;
             res.data.err_msg.list.forEach((element) => {
-              element.trial_time = this.commonJs.timestampToTime(
-                element.trial_time
+              element.create_time = this.commonJs.timestampToTime(
+                element.create_time
               );
             });
             this.extendList = res.data.err_msg.list;
@@ -1269,11 +849,11 @@ export default {
         time2 = this.commonJs.dataTime(this.time_value[1]);
       }
       this.loading = true;
-      selling_user_list({
+      earnings_statistics({
         page: page,
         page_size: number,
         user_search:this.seachVale,
-        is_member:this.type_status,
+        region:this.type_status,
         start_time: time1,
         end_time: time2,
       })
@@ -1282,8 +862,8 @@ export default {
           if (res.data.err_code == 0) {
             this.loading = false;
             res.data.err_msg.list.forEach((element) => {
-              element.trial_time = this.commonJs.timestampToTime(
-                element.trial_time
+              element.create_time = this.commonJs.timestampToTime(
+                element.create_time
               );
             });
             this.extendList = res.data.err_msg.list;
@@ -1333,11 +913,11 @@ export default {
         time2 = this.commonJs.dataTime(this.time_value[1]);
       }
       this.loading = true;
-      selling_user_list({
+      earnings_statistics({
         page: 1,
         page_size: this.pageSize,
         user_search:this.seachVale,
-        is_member:this.type_status,
+        region:this.type_status,
         start_time: time1,
         end_time: time2,
       })
@@ -1346,8 +926,8 @@ export default {
           if (res.data.err_code == 0) {
             this.loading = false;
             res.data.err_msg.list.forEach((element) => {
-              element.trial_time = this.commonJs.timestampToTime(
-                element.trial_time
+              element.create_time = this.commonJs.timestampToTime(
+                element.create_time
               );
             });
             this.extendList = res.data.err_msg.list;
@@ -1594,17 +1174,21 @@ export default {
       let request_form = {
         page: 1,
         page_size: this.pageSize2,
-        uid:this.openItem.uid
+        id:this.openItem.id
       };
-      user_ticket_list(request_form)
+      earnings_details(request_form)
         .then((res) => {
           if (res.data.err_code == 0) {
             this.loading2 = false;
             res.data.err_msg.list.forEach((element) => {
-              element.create_time = this.commonJs.timestampToTime(
-                element.create_time
+              element.add_time = this.commonJs.timestampToTime(
+                element.add_time
+              );
+              element.complate_time = this.commonJs.timestampToTime(
+                element.complate_time
               );
             });
+            this.itemInfo = res.data.err_msg
             this.extendList2 = res.data.err_msg.list;
             this.queryInfo2.pageSize = parseInt(res.data.err_msg.page_size);
             this.queryInfo2.page = parseInt(res.data.err_msg.page);
@@ -1639,22 +1223,27 @@ export default {
         time2 = this.commonJs.dataTime(this.time_value2[1]);
       }
       this.loading2 = true;
-      user_ticket_list({
+      earnings_details({
         page: page,
         page_size: number,
-        type:this.seachVale2,
-        coupon_type:this.type_status2,
+        search:this.seachVale4,
+        service_type:this.seachVale2,
+        time_type:this.type_status2,
         start_time: time1,
         end_time: time2,
-        uid:this.openItem.uid
+        id:this.openItem.id
       })
         .then((res) => {
           console.log(res);
           if (res.data.err_code == 0) {
             this.loading2 = false;
+            this.itemInfo = res.data.err_msg
             res.data.err_msg.list.forEach((element) => {
-              element.create_time = this.commonJs.timestampToTime(
-                element.create_time
+              element.add_time = this.commonJs.timestampToTime(
+                element.add_time
+              );
+              element.complate_time = this.commonJs.timestampToTime(
+                element.complate_time
               );
             });
             this.extendList2 = res.data.err_msg.list;
@@ -1686,12 +1275,24 @@ export default {
     },
     //搜索
     pick_seach2() {
-      if (this.seachVale2 == "" && this.time_value2 == "" && this.type_status2 == "") {
+      if (this.seachVale4 == "" && this.seachVale2 == "" && this.time_value2 == "" && this.type_status2 == "") {
         this.$message({
           message: "请填写搜索内容",
           type: "warning",
         });
         return;
+      }
+      if(this.type_status2 != '' || this.time_value2 != ''){
+        if(this.type_status2 == '' || this.time_value2 == ''){
+          if(this.time_value2[0] === '' && this.time_value2[1] === ''){
+          }else{
+            this.$message({
+              message: "请完善时间类型",
+              type: "warning",
+            });
+            return;
+          }
+        }
       }
       var time1 = "";
       var time2 = "";
@@ -1700,22 +1301,27 @@ export default {
         time2 = this.commonJs.dataTime(this.time_value2[1]);
       }
       this.loading1 = true;
-      user_ticket_list({
+      earnings_details({
         page: 1,
         page_size: this.pageSize2,
-        type:this.seachVale2,
-        coupon_type:this.type_status2,
+        search:this.seachVale4,
+        service_type:this.seachVale2,
+        time_type:this.type_status2,
         start_time: time1,
         end_time: time2,
-        uid:this.openItem.uid
+        id:this.openItem.id
       })
         .then((res) => {
           console.log(res);
           if (res.data.err_code == 0) {
             this.loading2 = false;
+            this.itemInfo = res.data.err_msg
             res.data.err_msg.list.forEach((element) => {
-              element.create_time = this.commonJs.timestampToTime(
-                element.create_time
+              element.add_time = this.commonJs.timestampToTime(
+                element.add_time
+              );
+              element.complate_time = this.commonJs.timestampToTime(
+                element.complate_time
               );
             });
             this.extendList2 = res.data.err_msg.list;
@@ -2042,6 +1648,21 @@ export default {
 }
 /deep/ .el-dialog__headerbtn .el-dialog__close {
   color: #fff;
+}
+/deep/ .radio1 .el-radio__input.is-checked .el-radio__inner{
+    border-color: #0cb327;
+    background: #0cb327;
+}
+/deep/ .radio1 .el-radio__input.is-checked+.el-radio__label{
+    color: #0cb327;
+}
+
+/deep/ .radio2 .el-radio__input.is-checked .el-radio__inner{
+    border-color: #f40909;
+    background: #f40909;
+}
+/deep/ .radio2 .el-radio__input.is-checked+.el-radio__label{
+    color: #f40909;
 }
 .info {
   padding: 10px 20px;

@@ -26,9 +26,11 @@
             <span style="margin-right: 20px; color: #1b2ba6"
               >三方交易号：{{refundInfo.info.third_id}}</span
             >
+            <span v-if="Number(refundInfo.info.discount_price) > 0" style="background:#ffe6d9;padding:2px 4px;border-radius:2px;color:#ee0c0c;font-size: 14px;">新用户特惠</span>
             <!-- <span style="margin-right: 20px; color: #1b2ba6"
               >货到没：{{refundInfo.info.product_status == 2?"收到":"没到"}}</span
             > -->
+            
             
           </div>
           <div style="font-size: 15px">
@@ -245,7 +247,7 @@
             </el-table-column>
             <el-table-column label="优惠">
               <template>
-                <div>暂无</div>
+                <div style="color:#ee0c0c;">{{refundInfo.info.discount_price}}元</div>
               </template>
             </el-table-column>
 
@@ -253,6 +255,9 @@
               <template>
                 <div style="color: red">
                   订单合计: {{ refundInfo.info.sub_total }}元
+                </div>
+                <div style="color: red">
+                  实付金额:{{ refundInfo.info.pay_money }}元 
                 </div>
                 <div style="color: red">
                   退现金: {{ refundInfo.info.refund_cash }}元

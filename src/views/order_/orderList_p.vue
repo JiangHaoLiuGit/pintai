@@ -177,6 +177,7 @@
                     <span style="margin-right:20px;font-weight: bold; color: #6a6ae0;font-size: 14px;">订单编号:{{ scope.row.order_no }}</span>
                     <span style="margin-right:20px;font-weight: bold; color: #6a6ae0;font-size: 14px;">商户单号:{{ scope.row.relation_no }}</span>
                     <span style="margin-right:20px;font-weight: bold; color: #6a6ae0;font-size: 14px;">三方交易号:{{ scope.row.third_id!=''?scope.row.third_id:"暂无" }}</span>
+                    <span v-if="Number(scope.row.discount_price) > 0" style="background:#ffe6d9;padding:2px 4px;border-radius:2px;color:#ee0c0c;font-size: 14px;">新用户特惠</span>
                   </div>
                   <div class="ltSpan clearfix">
                     <span style="margin-right:20px;">下单时间:{{ scope.row.add_time }}</span>
@@ -230,12 +231,16 @@
           </el-table-column>
           <el-table-column label="图片" width="150">
             <template slot-scope="scope">
-              <el-image
+              <div class="por" style="width: 129px; height: 88px">
+                <el-image
                 :src="scope.row.image1"
                 fit="cover"
                 style="width: 80px; height: 80px"
                 :preview-src-list="[scope.row.image1]"
               ></el-image>
+                <span class="spanActive poa" v-if="scope.row.type == 1">健康共富</span>
+              </div>
+              
             </template>
           </el-table-column>
           <el-table-column label="数量/单价/合计">
@@ -303,6 +308,9 @@
                 </li>
                 <li style="text-align: left">
                     橘宝:{{ scope.row.product_score }}个<span>({{scope.row.score_value}}元)</span>
+                </li>
+                <li style="text-align: left;color:#ee0c0c;">
+                    共优惠:{{ scope.row.discount_price }}元
                 </li>
               </ul>
             </template>
@@ -4831,7 +4839,16 @@ export default {
 /deep/ .el-table th {
   text-align: center !important;
 }
-
+.spanActive{
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+  background: rgba(0,0,0,.5);
+  color: #fff;
+  text-align: center;
+}
 /deep/ .goodsindex-list.goodsindex1 {
   padding-top: 10px;
   position: relative;

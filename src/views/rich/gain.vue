@@ -547,6 +547,8 @@
         </el-row>
       </el-tab-pane>
     </el-tabs>
+
+
     <!-- 编辑问答 -->
     <el-dialog
       width="80%"
@@ -554,19 +556,19 @@
       :visible.sync="activeName"
       append-to-body
     >
-      <div class="info">用户收益明细</div>
+      <div class="info">供应商收益明细</div>
       <div style="padding: 10px">
         <div class="seach">
           
           <div class="el-inpu inlineBlock">
             <div class="textItem clearfix marginBottom">
-                <div class="lt yellow marginRight">
+                <!-- <div class="lt yellow marginRight">
                 当前用户:{{openItem.nickname}}
-                </div>
+                </div> -->
                 <div class="lt yellow marginRight">
-                用户ID:{{openItem.uid}}
+                店铺ID:{{openItem.uid}}
                 </div>
-                <div class="lt yellow marginRight">
+                <!-- <div class="lt yellow marginRight">
                 账号:{{openItem.account}}
                 </div>
                 <div class="lt  marginRight">
@@ -583,19 +585,13 @@
                 </div>
                 <div class="lt  marginRight">
                 未入账:{{openItem.not_entry_num}}
-                </div>
+                </div> -->
             </div>
           </div>
         </div>
         <div class="seach_copy" style="padding-top:0">
           <div class="seach_select">
             <div class="seach_select">
-              <!-- <el-input
-                v-model="anchor_id"
-                type="number"
-                @keyup.enter.native="pick_seach"
-                placeholder="请输入用户id"
-              ></el-input> -->
               <el-input
               v-model="nickname"
               style="width:300px"
@@ -646,6 +642,11 @@
             >
               <el-table-column label="序号" type="index" width="50">
               </el-table-column>
+              <el-table-column
+              width="140"
+                prop="place_order_time"
+                label="下单时间"
+              ></el-table-column>
               <el-table-column
               width="140"
                 prop="complate_time"
@@ -1016,6 +1017,9 @@ export default {
               element.complate_time = this.commonJs.timestampToTime(
                 element.complate_time
               );
+              element.place_order_time = this.commonJs.timestampToTime(
+                element.place_order_time
+              );
             })
             this.extendList1 = res.data.err_msg.list;
             this.queryInfo1.pageSize = parseInt(res.data.err_msg.page_size);
@@ -1222,6 +1226,8 @@ export default {
               element.complate_time = this.commonJs.timestampToTime(
                 element.complate_time
               );
+              
+              
             });
             this.extendList2 = res.data.err_msg.list;
             this.queryInfo2.pageSize = parseInt(res.data.err_msg.page_size);
@@ -1336,6 +1342,9 @@ export default {
               element.complate_time = this.commonJs.timestampToTime(
                 element.complate_time
               );
+              element.place_order_time = this.commonJs.timestampToTime(
+                element.place_order_time
+              );
               if (element.profit_type != "") {
                 if (element.profit_type == "0") {
                   element.profit_type = "直播";
@@ -1392,6 +1401,9 @@ export default {
             res.data.err_msg.list.forEach((element) => {
               element.complate_time = this.commonJs.timestampToTime(
                 element.complate_time
+              );
+              element.place_order_time = this.commonJs.timestampToTime(
+                element.place_order_time
               );
               if (element.profit_type != "") {
                 if (element.profit_type == "0") {
@@ -1538,6 +1550,7 @@ export default {
               element.complate_time = this.commonJs.timestampToTime(
                 element.complate_time
               );
+              
             });
             this.extendList2 = res.data.err_msg.list;
             this.queryInfo2.pageSize = parseInt(res.data.err_msg.page_size);
@@ -1580,6 +1593,8 @@ export default {
               element.complate_time = this.commonJs.timestampToTime(
                 element.complate_time
               );
+              
+              
             });
             this.extendList2 = res.data.err_msg.list;
             this.queryInfo2.pageSize = parseInt(res.data.err_msg.page_size);
